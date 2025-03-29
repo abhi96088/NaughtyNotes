@@ -2,7 +2,10 @@ import 'package:animated_card/animated_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:naughty_notes/services/database_service.dart';
+
+import '../services/auth_service.dart';
+import '../widgets/texts.dart';
 
 class NotesScreen extends StatefulWidget {
   const NotesScreen({super.key});
@@ -13,11 +16,14 @@ class NotesScreen extends StatefulWidget {
 
 class _NotesScreenState extends State<NotesScreen> {
 
+  // controllers to handle text inputs
   final TextEditingController _noteController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
-  final CollectionReference notesCollection =
-  FirebaseFirestore.instance.collection('notes');
 
+  // stores collection in which notes are stored
+  CollectionReference notesCollection = DatabaseService().getInstance().collection('notes').doc(AuthService().getInstance().currentUser.uid).collection('notes_list');
+
+  // list of colors to generate random background of card
   final List<Color> cardColors = [
     Colors.pinkAccent,
     Colors.blueAccent,
@@ -26,36 +32,10 @@ class _NotesScreenState extends State<NotesScreen> {
     Colors.purpleAccent,
   ];
 
-
-  void _addOrUpdateNote({String? id}) {
-    if (_noteController.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Write something naughty first!", backgroundColor: Colors.red);
-      return;
-    }
-    if (id == null) {
-      notesCollection.add({
-        'title': _titleController.text.isNotEmpty ? _titleController.text : '',
-        'text': _noteController.text,
-        'timestamp': DateTime.now()
-      });
-    } else {
-      notesCollection.doc(id).update({
-        'title': _titleController.text.isNotEmpty ? _titleController.text : '',
-        'text': _noteController.text
-      });
-    }
-    _titleController.clear();
-    _noteController.clear();
-  }
-
-  void _deleteNote(String id) {
-    notesCollection.doc(id).delete();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Naughty Notes')),
+      appBar: AppBar(title: Text("Naughty Notes", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 30, letterSpacing: 0.7),), centerTitle: true, backgroundColor: Colors.pinkAccent,),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: StreamBuilder<QuerySnapshot>(
@@ -134,7 +114,7 @@ class _NotesScreenState extends State<NotesScreen> {
           ),
           TextButton(
             onPressed: () {
-              _deleteNote(docId);
+              DatabaseService().deleteNote(docId);
               Navigator.pop(context);
             },
             child: Text('Delete', style: TextStyle(color: Colors.red)),
@@ -179,7 +159,10 @@ class _NotesScreenState extends State<NotesScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              _addOrUpdateNote(id: id);
+              DatabaseService().addOrUpdateNote(id: id, title: _titleController.text, text: _noteController.text);
+              _titleController.clear();
+              _noteController.clear();
+
               Navigator.pop(context);
             },
             child: Text(id == null ? 'Save' : 'Update', style: TextStyle(color: Colors.pinkAccent)),

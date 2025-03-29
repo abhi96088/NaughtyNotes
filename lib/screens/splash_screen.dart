@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:naughty_notes/auth_service.dart';
-import 'package:naughty_notes/login_screen.dart';
-import 'package:naughty_notes/notes_screen.dart';
+import 'package:naughty_notes/services/auth_service.dart';
+import 'package:naughty_notes/screens/login_screen.dart';
+import 'package:naughty_notes/screens/notes_screen.dart';
+import 'package:naughty_notes/widgets/texts.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -42,29 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
             SizedBox(
               height: 20,
             ),
-            RichText(
-              text: TextSpan(
-                  text: "Naughty",
-                  style: TextStyle(
-                      shadows: [
-                        Shadow(
-                          color: Colors.black, // Shadow color
-                          offset: Offset(2, 2), // Position (X, Y)
-                          blurRadius: 5, // Blur effect
-                        ),
-                      ],
-                      fontWeight: FontWeight.w600,
-                      fontSize: 35,
-                      color: Color(0XFF6FF436)),
-                  children: [
-                    TextSpan(
-                        text: " Notes",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 35,
-                            color: Color(0XFFC22A41)))
-                  ]),
-            )
+            Texts.appTitle
           ],
         ),
       ),

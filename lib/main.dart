@@ -1,9 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:naughty_notes/login_screen.dart';
-import 'package:naughty_notes/notes_screen.dart';
-import 'package:naughty_notes/splash_screen.dart';
-
+import 'package:naughty_notes/screens/splash_screen.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
