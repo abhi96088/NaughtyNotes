@@ -14,10 +14,14 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
+
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       //------------>  background <-----------------//
       body: Container(
-        height: MediaQuery.of(context).size.height,
+        height: screenHeight,
         width: double.infinity,
         decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -33,47 +37,57 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.05,
-              ),
-              SvgPicture.asset(
-                "assets/images/login_art.svg",
+                height: screenHeight * 0.05,
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.3,
-                width: MediaQuery.of(context).size.width * 0.95,
+                height: screenHeight * 0.5,
+                width: screenWidth * 0.9,
+                child: SvgPicture.asset(
+                  "assets/images/login_art.svg",
+                ),
+              ),
+              SizedBox(
+                height: screenHeight * 0.05,
+              ),
+              ///////////////////////////// Card //////////////////////
+              SizedBox(
+                height: screenHeight * 0.3,
+                width: screenWidth * 0.95,
                 child: Card(
                   elevation: 4,
                   shadowColor: Colors.black,
                   child: Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(screenWidth * 0.01),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Texts.appTitle,
                         SizedBox(
-                          height: 10,
+                            height: screenHeight * 0.06,
+                            child: FittedBox(child: Texts.appTitle)),
+                        SizedBox(
+                          height: screenHeight * 0.01,
                         ),
                         Text(
                           "Write Freely, Store Secretly!",
                           style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.w500),
+                              fontSize: 20, fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: screenHeight * 0.01,
                         ),
                         Text(
                           "Get Started",
                           style: TextStyle(
                               color: Colors.deepPurple,
-                              fontSize: 22,
+                              fontSize: 18,
                               fontWeight: FontWeight.w600),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: screenHeight * 0.01,
                         ),
                         SizedBox(
-                          height: 50,
-                          width: MediaQuery.of(context).size.width * 0.7,
+                          height: screenHeight * 0.07,
+                          width: screenWidth * 0.7,
                           child: ElevatedButton(
 
                             ///////////// login code ///////////
@@ -112,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     Text(
                                       "Continue with Google",
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 18),
+                                          color: Colors.white, fontSize: 16),
                                     ),
                                     Spacer(),
                                   ],
